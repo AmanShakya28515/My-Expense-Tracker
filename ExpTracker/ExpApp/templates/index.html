@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        input { margin: 5px; padding: 5px; }
+        button { padding: 5px 10px; }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchExpenses();
+        });
+
+        function fetchExpenses() {
+            fetch('/expenses/')
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('expense-list');
+                    list.innerHTML = '';
+                    data.forEach(exp => {
+                        list.innerHTML += `
+                            <li>
+                                <strong>${exp.title}</strong> - $${exp.amount}
+                                <button onclick="deleteExpense(${exp.id})">Delete</button>
+                            </li>`;
+                    });
+                });
+        }
+
+        function addExpense() {
+            const title = document.getElementById('title').value;
+            const amount = document.getElementById('amount').value;
+
+            fetch('/expenses/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title, amount: amount })
+            })
+            .then(res => res.json())
+            .then(data => {
+                fetchExpenses();
+                document.getElementById('title').value = '';
+                document.getElementById('amount').value = '';
+            });
+        }
+
+        function deleteExpense(id) {
+            fetch(`/expenses/${id}/`, {
+                method: 'DELETE'
+            }).then(() => fetchExpenses());
+        }
+    </script>
+</head>
+<body>
+    <h1>Expense Tracker</h1>
+
+    <h3>Add New Expense</h3>
+    <input type="text" id="title" placeholder="Title">
+    <input type="number" id="amount" placeholder="Amount">
+    <button onclick="addExpense()">Add Expense</button>
+
+    <h3>All Expenses</h3>
+    <ul id="expense-list"></ul>
+</body>
+</html>

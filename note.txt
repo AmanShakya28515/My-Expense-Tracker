@@ -1,0 +1,50 @@
+crate react app with vite 
+1. npm create vite@latest react_vite_app
+2.cd react_vite_app
+3.npm install
+4.npm run dev  == run 
+ 
+
+
+===================
+React is a JavaScript library used to build user interfaces (UIs) — especially for web applications.
+for example 
+
+A Navbar component → used on every page
+
+A Cart component → updates dynamically as you add items
+
+==============
+What is Vite?
+Vite (pronounced like "vite" in French, meaning "fast") is a modern front-end build tool created to make web development faster and smoother, especially with frameworks like React, Vue, and others.
+=========================================
+When Should You Use Vite?
+You want a fast dev environment.
+
+You are using React, Vue, or vanilla JS.
+
+You’re starting a new modern project.
+
+You care about performance and easy setup.
+===========================
+How to Use an API in React
+React uses JavaScript to call APIs using:
+
+fetch() – built-in method
+
+axios – a popular library (needs installation)
+==================================================================
+Starting of Prokect Expense Tracker
+===============================================================
+1. we have installed js labrary Axios = used to make HTTP requests (like GET, POST, PUT, DELETE) from your frontend (React) to a backend (like your Django API).
+=npm install axios
+
+2.to allow your React frontend (running on localhost:5173) to interact with your Django backend API (on localhost:8000), you must configure CORS in Django.
+-- pip install django-cors-headers
+
+ #. Update settings.py
+  =  corsheaders
+
+#b. Add to MIDDLEWARE at the top (right after SecurityMiddleware):
+--     'corsheaders.middleware.CorsMiddleware',
+
