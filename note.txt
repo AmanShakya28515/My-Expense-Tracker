@@ -52,7 +52,51 @@ Starting of Project Expense Tracker
 CORS_ALLOW_ALL_ORIGINS = True
 
 =====================================================================================================================
-deployment.py 
+deployment.py
+
+ What is os.environ?
+os.environ is a Python dictionary that gives you access to environment variables.
+
+✅ Environment Variables:
+They are secure key-value pairs used to store secret or project-specific information — like:
+
+🔐 SECRET_KEY
+
+🌍 WEBSITE_HOSTNAME
+
+🔑 Database passwords
+
+🔧 API keys
+
+Let's Explain Line by Line:
+1️⃣ SECRET_KEY = os.environ['SECRET']
+In Django, SECRET_KEY is required for cryptographic signing (security of cookies, sessions, CSRF, etc.).
+
+Instead of writing it directly in your settings.py (like SECRET_KEY = 'abc123...'), you're pulling it from Azure's secure environment:
+
+SECRET_KEY = os.environ['SECRET']
+✅ This keeps your key safe and hidden — good for security and deployment.
+
+2️⃣ ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
+ALLOWED_HOSTS defines which domain names are allowed to access your app.
+
+✅ On Azure, the app gets a domain like:
+
+yourapp.azurewebsites.net
+So Azure creates an environment variable called WEBSITE_HOSTNAME, and this line pulls it:
+
+ALLOWED_HOSTS = ['yourapp.azurewebsites.net']
+✅ This prevents Django from throwing a "Bad Request (400)" error.
+
+3️⃣ CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
+This allows your domain to be trusted for CSRF protection (important when submitting forms or using login/logout).
+
+✅ For example:
+
+CSRF_TRUSTED_ORIGINS = ['https://yourapp.azurewebsites.net']
+🔒 It tells Django: "This origin is trusted, don't block CSRF requests from here."
+
+================================================================================================================
 
 1️⃣ 'corsheaders.middleware.CorsMiddleware'
 ✅ Allows your Django backend to accept requests from other domains (e.g., frontend on Vercel).
@@ -70,8 +114,7 @@ Must-have for production deployments.
 ===========================================
  Static Files for Production
 python
-Copy
-Edit
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestedStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 🔹 This tells Django to collect static files into a staticfiles/ folder, compress them, and serve via WhiteNoise.
