@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>💸 Expense Tracker</h2>
+      <h2>Expense Tracker</h2>
 
       {/* Form */}
       <form onSubmit={addOrUpdateExpense} style={{ marginBottom: '20px' }}>
